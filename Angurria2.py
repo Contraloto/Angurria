@@ -1,13 +1,13 @@
 import streamlit as st
 import random
-import sendgrid
-from sendgrid.helpers.mail import Mail, Email, Content
+import smtplib
+from email.mime.text import MIMEText
 
 # Diccionario para almacenar las salas y sus códigos
 salas = {}
 
 # Título de la aplicación
-st.title("Bienvenidos Angurrias")
+st.title("Sala de Chat")
 
 # Selección de acción: Crear sala o unirse a sala
 accion = st.radio("Selecciona una acción:", ("Crear una sala", "Unirse a una sala"))
@@ -25,18 +25,19 @@ if accion == "Crear una sala":
             st.success(f"Sala '{sala_id}' creada con éxito. Código de sala: {codigo_sala}")
             
             # Envío de correo electrónico
-            sg = sendgrid.SendGridAPIClient(api_key="TU_API_KEY")
-            from_email = Email("tucorreo@gmail.com")  # Remplaza con tu dirección de correo electrónico
-            subject = "Código de sala"
-            content = Content("text/plain", f"Tu código de sala es: {codigo_sala}")
-            to_email = Email(email)
-            mail = Mail(from_email, subject, to_email, content)
-            
-            response = sg.client.mail.send.post(request_body=mail.get())
-            if response.status_code == 202:
+            try:
+                server = smtplib.SMTP('smtp.example.com', 587)  # Reemplaza con tu servidor SMTP
+                server.starttls()
+                server.login('tucorreo@example.com', 'tucontraseña')  # Reemplaza con tus credenciales
+                message = MIMEText(f"Tu código de sala es: {codigo_sala}")
+                message['From'] = 'tucorreo@example.com'  # Reemplaza con tu dirección de correo
+                message['To'] = email
+                message['Subject'] = 'Código de sala'
+                server.sendmail('tucorreo@example.com', email, message.as_string())
+                server.quit()
                 st.success(f"Correo electrónico enviado a {email} con el código de la sala.")
-            else:
-                st.error("Error al enviar el correo electrónico.")
+            except Exception as e:
+                st.error(f"Error al enviar el correo electrónico: {e}")
 
 elif accion == "Unirse a una sala":
     codigo_ingresado = st.text_input("Ingresa el código de la sala:")
@@ -55,6 +56,7 @@ if accion == "Unirse a una sala" and codigo_ingresado in salas:
     if st.button("Enviar"):
         if mensaje:
             sala_actual["mensajes"].append(f"Usuario: {mensaje}")
+
 
 
 
