@@ -1,29 +1,43 @@
 import streamlit as st
+import random
 
-# Variable para el estado de redirección
-redireccionado = False
+# Diccionario para almacenar las salas y sus códigos
+salas = {}
 
-# Página principal
-st.title("Página Principal")
+# Título de la aplicación
+st.title("Sala de Chat")
 
-# Verificar si se ha redirigido a la página secundaria
-if "pagina" in st.experimental_get_query_params():
-    if st.experimental_get_query_params()["pagina"] == "otra":
-        redireccionado = True
+# Selección de acción: Crear sala o unirse a sala
+accion = st.radio("Selecciona una acción:", ("Crear una sala", "Unirse a una sala"))
 
-if redireccionado:
-    st.title("Página Secundaria")
-    st.write("Bienvenido a la página secundaria")
-    
-    # Botón para regresar a la página principal
-    if st.button("Regresar a la página principal"):
-        st.experimental_set_query_params(pagina="principal")  # Redirigir de nuevo a la página principal
-else:
-    st.image("https://w7.pngwing.com/pngs/361/694/png-transparent-light-circle-geometry-science-and-technology-blue-mechanical-blue-angle-electronics.png", caption="Imagen de ejemplo")
+if accion == "Crear una sala":
+    # Genera un código de sala aleatorio
+    codigo_sala = random.randint(1000, 9999)
+    st.write(f"Tu código de sala es: {codigo_sala}")
+    sala_id = st.text_input("Ingresa un nombre para la sala:")
+    if st.button("Crear Sala"):
+        if sala_id:
+            salas[codigo_sala] = {"nombre_sala": sala_id, "mensajes": []}
+            st.success(f"Sala '{sala_id}' creada con éxito.")
 
-    if st.button("Ir a la otra página"):
-        st.write("Redirigiendo a la otra página...")
-        st.experimental_set_query_params(pagina="otra")
-        st.empty()  # Limpiar la pantalla principal
+elif accion == "Unirse a una sala":
+    codigo_ingresado = st.text_input("Ingresa el código de la sala:")
+    if st.button("Unirse a Sala"):
+        if codigo_ingresado:
+            if int(codigo_ingresado) in salas:
+                sala_actual = salas[int(codigo_ingresado)]
+                st.write(f"Te has unido a la sala '{sala_actual['nombre_sala']}'")
+                st.write(f"Código de sala: {codigo_ingresado}")
+                st.write("Mensajes en la sala:")
+                mensajes_sala = sala_actual["mensajes"]
+                for mensaje in mensajes_sala:
+                    st.write(mensaje)
+            else:
+                st.error("Código de sala no válido. Inténtalo de nuevo.")
 
+# Chat en la sala (puede ser mejorado para incluir más características)
+mensaje = st.text_area("Escribe un mensaje:")
+if st.button("Enviar"):
+    if accion == "Unirse a una sala" and int(codigo_ingresado) in salas:
+        sala_actual["mensajes"].append(f"Usuario: {mensaje}")
 
