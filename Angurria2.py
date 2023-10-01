@@ -20,7 +20,7 @@ if redireccionado:
     if st.button("Regresar a la página principal"):
         st.experimental_set_query_params(pagina="principal")  # Redirigir de nuevo a la página principal
 else:
-    st.image("tu_imagen.jpg", caption="Imagen de ejemplo")
+    st.image("https://w7.pngwing.com/pngs/361/694/png-transparent-light-circle-geometry-science-and-technology-blue-mechanical-blue-angle-electronics.png", caption="Imagen de ejemplo")
 
     if st.button("Ir a la otra página"):
         st.write("Redirigiendo a la otra página...")
