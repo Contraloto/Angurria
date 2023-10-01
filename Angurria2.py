@@ -4,7 +4,13 @@ import streamlit as st
 salas = {}
 
 # Título de la aplicación
-st.title("Bienvenidos Angurrias")
+st.title("Sala de Chat")
+
+# Agrega el CSS personalizado
+st.markdown(
+    '<link rel="stylesheet" href="css/custom.css">',
+    unsafe_allow_html=True
+)
 
 # Selección de acción: Crear sala o unirse a sala
 accion = st.radio("Selecciona una acción:", ("Crear una sala", "Unirse a una sala"))
