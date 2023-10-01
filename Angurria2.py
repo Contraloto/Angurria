@@ -38,7 +38,7 @@ for i in range(cantidad2):
 st.write("\nDatos de los jugadores:")
 for nombre, datos in jugadores.items():
     st.write(nombre, datos)
-st.write("Cantidad de rondas:", rondas)
+st.write("Cantidad de rondas:", rondas2)
 
 # Función para simular un lanzamiento de dado
 def lanzar_dado():
