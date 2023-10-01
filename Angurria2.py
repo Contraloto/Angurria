@@ -9,7 +9,7 @@ st.title("Página Principal")
 # Verificar si se ha redirigido a la página secundaria
 if "pagina" in st.experimental_get_query_params():
     if st.experimental_get_query_params()["pagina"] == "otra":
-        redireccionado = True
+        redireccionado = False
 
 if redireccionado:
     st.empty()  # Limpiar la pantalla principal
