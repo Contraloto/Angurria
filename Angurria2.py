@@ -2,11 +2,15 @@ import streamlit as st
 import random
 import pandas as pd
 
+rondas2 = 0
+cantidad2 = 0
+
 # Preguntar la cantidad de rondas
 cantidad_rondas = st.text_input("Ingrese la cantidad de rondas:")
 
 if cantidad_rondas.isdigit():
     rondas = int(cantidad_rondas)
+    rondas2 = rondas
 else:
     st.error("La cantidad debe ser un número entero. Intente nuevamente.")
 
@@ -15,6 +19,7 @@ cantidad_jugadores = st.text_input("Ingrese la cantidad de jugadores:")
 
 if cantidad_jugadores.isdigit():
     cantidad = int(cantidad_jugadores)
+    cantidad2 = cantidad
 else:
     st.error("La cantidad debe ser un número entero. Intente nuevamente.")
 
@@ -22,7 +27,7 @@ else:
 jugadores = {}
 
 # Solicitar los nombres y otros datos de los jugadores
-for i in range(cantidad):
+for i in range(cantidad2):
     nombre = st.text_input(f"Ingrese el nombre del jugador {i+1}:")
 
     if nombre:
@@ -43,7 +48,7 @@ def lanzar_dado():
 
 st.write("Bienvenidos Angurrias, inician los juegos del hambre")
 
-for ronda in range(1, rondas + 1):
+for ronda in range(1, rondas2 + 1):
     st.write(f"Ronda {ronda}:")
 
     # Iterar por cada jugador
