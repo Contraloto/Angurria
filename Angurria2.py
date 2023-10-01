@@ -4,7 +4,7 @@ import streamlit as st
 salas = {}
 
 # Título de la aplicación
-st.title("Sala de Chat")
+st.title("Bienvenidos Angurrias")
 
 # Selección de acción: Crear sala o unirse a sala
 accion = st.radio("Selecciona una acción:", ("Crear una sala", "Unirse a una sala"))
