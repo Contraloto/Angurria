@@ -1,6 +1,11 @@
 import streamlit as st
 import random
 import time
+import pandas as pd
+
+
+rondas2 = 0
+cantidad2 = 0
 
 # Diccionario para almacenar las salas y sus códigos
 salas = {}
@@ -29,12 +34,7 @@ if accion == "Crear una sala":
             # Agrega un retraso de 5 segundos antes de redirigir al usuario
             st.write("Redireccionando a una nueva página en 5 segundos...")
             time.sleep(5)
-            if accion in st.session_state:
-    if st.session_state.accion == "Crear una sala":
-        st.title("Nueva Página")
-
-        rondas2 = 0
-        cantidad2 = 0
+            st.experimental_rerun()
 
         # Preguntar la cantidad de rondas
         cantidad_rondas = st.text_input("Ingrese la cantidad de rondas:")
@@ -121,6 +121,7 @@ elif accion == "Unirse a una sala":
             # Agrega aquí la redirección a una nueva página para solicitar el nombre y avatar.
         else:
             st.error("Código de sala inválido. Asegúrate de que sea de 4 dígitos.")
+
 
 
 
