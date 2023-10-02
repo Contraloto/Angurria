@@ -42,7 +42,7 @@ elif accion == "Unirse a una sala":
             st.error("Código de sala inválido. Asegúrate de que sea de 4 dígitos.")
 
 if accion in st.session_state:
-    if st.session_state.accion == "Crear una sala":
+    if st.session_state.accion == "Crear sala":
         st.title("Nueva Página")
 
         rondas2 = 0
