@@ -29,20 +29,8 @@ if accion == "Crear una sala":
             # Agrega un retraso de 5 segundos antes de redirigir al usuario
             st.write("Redireccionando a una nueva página en 5 segundos...")
             time.sleep(5)
-            st.experimental_rerun()
-
-elif accion == "Unirse a una sala":
-    codigo_ingresado = st.text_input("Ingresa el código de la sala:")
-    if st.button("Unirse a Sala"):
-        if len(codigo_ingresado) == 4 and codigo_ingresado.isdigit() and codigo_ingresado in salas:
-            st.balloons()
-            st.success(f"Te has unido a la sala '{salas[codigo_ingresado]['nombre_sala']}'")
-            # Agrega aquí la redirección a una nueva página para solicitar el nombre y avatar.
-        else:
-            st.error("Código de sala inválido. Asegúrate de que sea de 4 dígitos.")
-
-if accion in st.session_state:
-    if st.session_state.accion == "Crear sala":
+            if accion in st.session_state:
+    if st.session_state.accion == "Crear una sala":
         st.title("Nueva Página")
 
         rondas2 = 0
@@ -123,6 +111,18 @@ if accion in st.session_state:
         # Mostrar resultados
         st.write("\nResultados Finales:")
         st.write(resultados)
+
+elif accion == "Unirse a una sala":
+    codigo_ingresado = st.text_input("Ingresa el código de la sala:")
+    if st.button("Unirse a Sala"):
+        if len(codigo_ingresado) == 4 and codigo_ingresado.isdigit() and codigo_ingresado in salas:
+            st.balloons()
+            st.success(f"Te has unido a la sala '{salas[codigo_ingresado]['nombre_sala']}'")
+            # Agrega aquí la redirección a una nueva página para solicitar el nombre y avatar.
+        else:
+            st.error("Código de sala inválido. Asegúrate de que sea de 4 dígitos.")
+
+
 
 
 
