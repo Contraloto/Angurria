@@ -1,7 +1,6 @@
 import streamlit as st
 import random
 import time
-import pandas as pd
 
 # Diccionario para almacenar las salas y sus códigos
 salas = {}
@@ -20,45 +19,30 @@ accion = st.radio("Selecciona una acción:", ("Crear una sala", "Unirse a una sa
 
 if accion == "Crear una sala":
     sala_id = st.text_input("Ingresa un nombre para la sala:")
-    
     if st.button("Crear Sala"):
         if sala_id:
-            codigo_sala = str(hash(sala_id))
+            codigo_sala = str(random.randint(1000, 9999))  # Código de sala de 4 dígitos
             salas[codigo_sala] = {"nombre_sala": sala_id, "mensajes": []}
             st.balloons()
             st.success(f"Sala '{sala_id}' creada con éxito. Código de sala: {codigo_sala}")
             
-            # Agrega un retraso de 5 segundos
-            with st.empty():
-                for i in range(5):
-                    st.progress(i / 5)
-                    time.sleep(1)
-                st.empty()  # Borra la barra de progreso
-                
-                # Redirecciona al usuario a una nueva página con la misma sesión
-                st.experimental_set_query_params(accion="nueva_pagina", sala_id=codigo_sala)
-            
+            # Agrega un retraso de 5 segundos antes de redirigir al usuario
+            st.write("Redireccionando a una nueva página en 5 segundos...")
+            time.sleep(5)
+            st.experimental_rerun()
+
 elif accion == "Unirse a una sala":
     codigo_ingresado = st.text_input("Ingresa el código de la sala:")
     if st.button("Unirse a Sala"):
-        if codigo_ingresado in salas:
+        if len(codigo_ingresado) == 4 and codigo_ingresado.isdigit() and codigo_ingresado in salas:
             st.balloons()
             st.success(f"Te has unido a la sala '{salas[codigo_ingresado]['nombre_sala']}'")
             # Agrega aquí la redirección a una nueva página para solicitar el nombre y avatar.
+        else:
+            st.error("Código de sala inválido. Asegúrate de que sea de 4 dígitos.")
 
-# Chat en la sala (puede ser mejorado para incluir más características)
-if accion == "Unirse a una sala" and codigo_ingresado in salas:
-    sala_actual = salas[codigo_ingresado]
-    mensaje = st.text_area("Escribe un mensaje:")
-    if st.button("Enviar"):
-        if mensaje:
-            sala_actual["mensajes"].append(f"Usuario: {mensaje}")
-
-# Nueva página para solicitar nombres y avatares
-if "accion" in st.experimental_get_query_params():
-    accion = st.experimental_get_query_params()["accion"]
-    
-    if accion == "nueva_pagina":
+if accion in st.session_state:
+    if st.session_state.accion == "Crear una sala":
         st.title("Nueva Página")
 
         rondas2 = 0
@@ -139,6 +123,7 @@ if "accion" in st.experimental_get_query_params():
         # Mostrar resultados
         st.write("\nResultados Finales:")
         st.write(resultados)
+
 
 
 
